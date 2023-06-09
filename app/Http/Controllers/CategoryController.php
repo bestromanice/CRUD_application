@@ -14,8 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::with('category')->paginate(15);
-
+        $categories = Category::all();
         return view('categories.index', ['categories' => $categories]);
     }
 
@@ -53,7 +52,6 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        $categories = Category::pluck('name', 'id');
         return view('categories.edit', ['category' => $category]);
     }
 

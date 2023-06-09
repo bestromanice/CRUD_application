@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tag;
 use App\Models\Post;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -26,7 +27,8 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::pluck('name', 'id');
-        return view('posts.create', ['categories' => $categories]);
+        $tags = Tag::pluck('name', 'id');
+        return view('posts.create', ['categories' => $categories, 'tags' => $tags]);
     }
 
     /**
@@ -39,7 +41,14 @@ class PostController extends Controller
         $post->slug = $request->input('slug');
         $post->excerpt = $request->input('excerpt');
         $post->category_id = $request->input('category');
+        // $post->tag_id = $request->input('tag');
         $post->content = $request->input('content');
+
+        if ($request->has('tags')) {
+            $tags = $request->input('tags');
+            $post->tags()->sync($tags);
+        }
+
         $post->save();
 
         return redirect()->route('posts.index')->with('success', 'The post has been successfully created');
@@ -59,7 +68,8 @@ class PostController extends Controller
     public function edit(Post $post)
     {
         $categories = Category::pluck('name', 'id');
-        return view('posts.edit', ['post' => $post, 'categories' => $categories]);
+        $tags = Tag::pluck('name', 'id');
+        return view('posts.edit', ['post' => $post, 'categories' => $categories, 'tags' => $tags]);
     }
 
     /**
@@ -84,6 +94,12 @@ class PostController extends Controller
         $post->excerpt = $request->input('excerpt');
         $post->content = $request->input('content');
         $post->category_id = $request->input('category');
+
+        if ($request->has('tags')) {
+            $tags = $request->input('tags');
+            $post->tags()->sync($tags);
+        }
+
         $post->save();
         // dd($request->all());
 

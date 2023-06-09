@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Tag;
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -19,6 +20,7 @@ class PostFactory extends Factory
     {
         return [
             'category_id' => Category::inRandomOrder()->first()->id,
+            'tag_id' => Tag::inRandomOrder()->first()->id,
             'slug' => $this->faker->unique()->slug(),
             'name' => $this->faker->sentence(),
             'content' => $this->faker->realText(1200),

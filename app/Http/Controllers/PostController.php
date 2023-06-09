@@ -36,7 +36,13 @@ class PostController extends Controller
      */
     public function store(PostCreateRequest $request)
     {
+        // $last = Post::all()->last()->id;
+        // $last += 1;
+
+        // dd($last);
         $post = new Post;
+     
+        // $post->id = $last;
         $post->name = $request->input('name');
         $post->slug = $request->input('slug');
         $post->excerpt = $request->input('excerpt');
@@ -48,9 +54,15 @@ class PostController extends Controller
         //     $tags = $request->input('tags');
         //     $post->tags()->sync($tags);
         // }
-        $post->tags()->sync($request->input('tags', []));
+        // $post->tags = $request->input('tags', []);
+        // dd($request->input());
         $post->save();
+        $post->tags()->sync($request->input('tags'));
+        // dd($post->tags);
+      
 
+
+        
         return redirect()->route('posts.index')->with('success', 'The post has been successfully created');
     }
 
@@ -59,6 +71,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+    
         return view('posts.show', ['post' => $post]);
     }
 

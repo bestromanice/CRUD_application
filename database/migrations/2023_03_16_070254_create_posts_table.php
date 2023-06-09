@@ -18,8 +18,7 @@ return new class extends Migration {
                 ->onDelete('restrict');
             
             $table->foreignId('tag_id')
-                ->constrained()
-                ->onDelete('restrict');
+                ->constrained();
 
             $table->string('name');
             $table->string('slug')->unique();

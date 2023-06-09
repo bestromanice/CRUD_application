@@ -55,7 +55,7 @@
 
                     <div>
                         <x-input-label for="tags" value="Tags" />
-                        <x-select :lists="$tags" id="tags" name="tags" class="mt-1 block w-full" multiple></x-select>
+                        <x-select :lists="$tags" id="tags" name="tags[]" class="mt-1 block w-full" multiple></x-select>
                         <x-input-error class="mt-2" :messages="$errors->get('tags')" />
                     </div>
 

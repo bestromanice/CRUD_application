@@ -41,14 +41,14 @@ class PostController extends Controller
         $post->slug = $request->input('slug');
         $post->excerpt = $request->input('excerpt');
         $post->category_id = $request->input('category');
-        // $post->tag_id = $request->input('tag');
         $post->content = $request->input('content');
+        
 
-        if ($request->has('tags')) {
-            $tags = $request->input('tags');
-            $post->tags()->sync($tags);
-        }
-
+        // if ($request->has('tags')) {
+        //     $tags = $request->input('tags');
+        //     $post->tags()->sync($tags);
+        // }
+        $post->tags()->sync($request->input('tags', []));
         $post->save();
 
         return redirect()->route('posts.index')->with('success', 'The post has been successfully created');
@@ -77,31 +77,19 @@ class PostController extends Controller
      */
     public function update(PostUpdateRequest $request, Post $post)
     {
-        // $this->validate($request, [
-        //     'name' => 'required|string',
-        //     'slug' => 'required|string',
-        //     'content' => 'required|string',
-        // ]);
-
-
-        // $post->fill($request->all());
-        // $post->save();
-
-        // $category = Category::findOrFail($request->input('category'));
-
         $post->name = $request->input('name');
         $post->slug = $request->input('slug');
         $post->excerpt = $request->input('excerpt');
         $post->content = $request->input('content');
         $post->category_id = $request->input('category');
 
-        if ($request->has('tags')) {
-            $tags = $request->input('tags');
-            $post->tags()->sync($tags);
-        }
+        // if ($request->has('tags')) {
+        //     $tags = $request->input('tags');
+        //     $post->tags()->sync($tags);
+        // }
+        $post->tags()->sync($request->input('tags', []));
 
         $post->save();
-        // dd($request->all());
 
         return back()->with('success', 'The post has been successfully updated');
     }
